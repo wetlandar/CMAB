@@ -7,6 +7,9 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="//www.electiongames2025.com">
   <meta property="og:image" content="https://electiongames2025.com/2025-ecssbe-nomination-topbanner.png">
+  <meta property="og:image:alt" content="AR Game">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <title>Constitutional and Mainland Affairs Bureau - AR Game</title>
   <script src="aframe.min.js"></script>
@@ -41,9 +44,96 @@
       z-index: 10; /* Above title and AR content */
       display: none; /* Hidden initially */
     }
+    #landingWapper{
+      display: block;
+      transition: opacity 0.5s ease;
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+      background-color: #2e7bbf;
+    }
+    #landingPage{
+      position: fixed;
+      bottom: -5%;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover; /* Covers the screen without distortion */
+      z-index: 11; /* Above title and AR content */
+      display: block; /* Hidden initially */
+    }
+    #startBtn{
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 45vw;
+      height: 30vh;
+      z-index: 100;
+      opacity: 0;
+      outline: none;
+    }
+    #enBtn{
+      position: absolute;
+      top: 0%;
+      right: 18%;
+      width: 20vw;
+      height: 10vh;
+      z-index: 100;
+      opacity: 0;
+    }
+    #tcBtn{
+      position: absolute;
+      top: 0%;
+      right: 0;
+      width: 18vw;
+      height: 10vh;
+      z-index: 100;
+      opacity: 0;
+    }
+    #landing_title{
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 15vh;
+      z-index: 100;
+      object-fit: contain;
+    }
+    button {
+      outline: none; /* Remove focus outline */
+      -webkit-tap-highlight-color: transparent; /* Remove iOS tap highlight */
+      -webkit-appearance: none; /* Remove default button styling */
+      -moz-appearance: none; /* For cross-browser consistency */
+      appearance: none; /* Standard property */
+      border: none; /* Remove default border */
+      background: #007bff; /* Example background */
+      color: white; /* Example text color */
+      padding: 10px 20px;
+      cursor: pointer; /* Maintain pointer cursor */
+      touch-action: manipulation; /* Optimize touch behavior */
+    }
+
+    /* Ensure no effect on active or focus states */
+    button:focus, button:active {
+      outline: none;
+      box-shadow: none; /* Remove any shadow */
+      background: #007bff; /* Keep consistent background */
+      border: none; /* Keep consistent border */
+    }
   </style>
 </head>
 <body>
+
+  <div id="landingWapper" style="display: block;">
+      <img id="landingPage" src="Landing.jpg" alt="Game Title">
+      <!-- <img id="landing_title" src="landing_title.png"> -->
+      <button id="startBtn" onclick="startgame()"></button>
+      <!-- <button id="enBtn" onclick="startgame()"></button>
+      <button id="tcBtn" onclick="startgame()"></button> -->
+  </div>
+
   <!-- Game title image -->
   <img id="game-title" src="title.png" alt="Game Title">
 
@@ -64,7 +154,7 @@
     <!-- NFT marker for image tracking -->
     <a-nft
       type="nft"
-      url="good"
+      url="marker"
       smooth="true"
       smoothCount="10"
       smoothTolerance="0.01"
@@ -92,7 +182,7 @@
       if (webcamVideo) {
         // Fade in title when webcam stream is ready
         webcamVideo.addEventListener('canplay', () => {
-          title.style.opacity = '1'; // Fade in title
+          //title.style.opacity = '1'; // Fade in title
         });
       } else {
         // Retry if webcam video element is not yet available
@@ -108,7 +198,7 @@
     // Show and play video, fade out title when marker is detected
     marker.addEventListener('markerFound', () => {
       video.style.display = 'block';
-      title.style.opacity = '0'; // Fade out title
+      //title.style.opacity = '0'; // Fade out title
 
       if(isTrigger === false && isPlaying === false){
         isTrigger = true;
@@ -135,13 +225,17 @@
       }
 
       video.style.display = 'none';
-      title.style.opacity = '1';
+      //title.style.opacity = '1';
 
     });
 
     marker.addEventListener('markerLost', () => {
       video.loop = false;
     });
+
+    function startgame(){
+      document.querySelector("#landingWapper").style.opacity = "0";
+    }
 
     // // Hide and reset video, fade in title when marker is lost
     // marker.addEventListener('markerLost', () => {
